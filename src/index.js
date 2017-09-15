@@ -225,7 +225,7 @@ export default function({types: t}){
                 const initializer = node.value ?
                         t.functionExpression(null, [], t.blockStatement([t.returnStatement(node.value)])) :
                         t.nullLiteral();
-                node.value = t.callExpression(ensureInitializerWarning(path, state), [descriptor, t.thisExpression()]);
+              //  node.value = t.callExpression(ensureInitializerWarning(path, state), [descriptor, t.thisExpression()]);
 
                 acc = acc.concat([
                     t.assignmentExpression('=', descriptor, t.callExpression(ensureApplyDecoratedDescriptorHelper(path, state), [
@@ -304,21 +304,21 @@ export default function({types: t}){
                 if (decoratedObject) path.replaceWith(decoratedObject);
             },
 
-            AssignmentExpression(path, state){
-                if (!state.initializerWarningHelper) return;
+            // AssignmentExpression(path, state){
+            //     if (!state.initializerWarningHelper) return;
 
-                if (!path.get('left').isMemberExpression()) return;
-                if (!path.get('left.property').isIdentifier()) return;
-                if (!path.get('right').isCallExpression()) return;
-                if (!path.get('right.callee').isIdentifier({name: state.initializerWarningHelper.name})) return;
+            //     if (!path.get('left').isMemberExpression()) return;
+            //     if (!path.get('left.property').isIdentifier()) return;
+            //     if (!path.get('right').isCallExpression()) return;
+            //     if (!path.get('right.callee').isIdentifier({name: state.initializerWarningHelper.name})) return;
 
-                path.replaceWith(t.callExpression(ensureInitializerDefineProp(path, state), [
-                    path.get('left.object').node,
-                    t.stringLiteral(path.get('left.property').node.name),
-                    path.get('right.arguments')[0].node,
-                    path.get('right.arguments')[1].node,
-                ]));
-            },
+            //     path.replaceWith(t.callExpression(ensureInitializerDefineProp(path, state), [
+            //         path.get('left.object').node,
+            //         t.stringLiteral(path.get('left.property').node.name),
+            //         path.get('right.arguments')[0].node,
+            //         path.get('right.arguments')[1].node,
+            //     ]));
+            // },
         }
     };
 };
